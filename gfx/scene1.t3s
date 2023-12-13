@@ -1,0 +1,2 @@
+--atlas -f RGBA -z auto
+scene1a.png scene1b.png 
