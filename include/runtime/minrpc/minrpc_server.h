@@ -38,7 +38,7 @@
 #include <memory>
 #include <utility>
 
-#include "../../support/generic_arena.h"
+#include "../support/generic_arena.h"
 #include "minrpc_interfaces.h"
 #include "rpc_reference.h"
 
