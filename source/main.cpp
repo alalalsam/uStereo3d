@@ -9,7 +9,7 @@
 #include "sample_not_person.h"
 #include "../include/tvm/runtime/crt/platform.h"
 
-//tvm runtime error (IDK how this works)
+//tvm runtime error logging (IDK how this works)
 /*
 void TVMLogf(const char* msg, ...) {
 	char buffer[128];
@@ -38,15 +38,14 @@ int main()
 		.reference = 0,
 	};
 	osTickCounterStart(&program_run_timer);
-	osTickCounterUpdate(&program_run_timer);
 	
-	//set clock for recording image inference time
+	//set variables for recording image inference time
 	TickCounter inference_timer = {
 		.elapsed = 0,
 		.reference = 0,
 	};
 	osTickCounterStart(&inference_timer);
-	osTickCounterUpdate(&inference_timer);
+
 
 	
 	//defines and sets input and output for model
@@ -72,14 +71,18 @@ int main()
 		hidScanInput();
 
 		// Your code goes here
+		
+		//print the total elapsed time
 		osTickCounterUpdate(&program_run_timer);
 		program_run_time += osTickCounterRead(&program_run_timer);
 		printf("\x1b[3;1Hprogram time elapsed (ms): %f\n", program_run_time);
+		
+		
 		//printf("current tick: %llu", program_timer.value_ms);
 		
 
-		/*
-		printf("\x1b[3;1HEvaluating VWW model using microTVM\n");
+		
+		printf("Evaluating VWW model using microTVM\n");
 		
 		//run inference on both images and print result 
 		if (sample == 0)
@@ -87,18 +90,19 @@ int main()
 		else
 			inputs.input_1_int8 = (void*)&sample_not_person;
 
-		timer_val = osTickCounterRead(&inference_timer);
+		osTickCounterUpdate(&inference_timer);
 		tvmgen_default_run(&inputs, &outputs);
-		timer_val = osTickCounterRead(&inference_timer) - timer_val;
+		osTickCounterUpdate(&inference_timer);
+		timer_val = osTickCounterRead(&inference_timer);
 		if (output[0] > output[1])
 			printf( "Person not detected, inference time = %lu ms\n", timer_val);
 		else
-			printf( "Person detected, inference time = %lu ms\n", timer_val);
+			printf( "\nPerson detected, inference time = %lu ms\n", timer_val);
 
 		sample++;
 		if (sample == 2)
 			sample = 0;		
-		*/
+		
 		
 		u32 kDown = hidKeysDown();
 		if (kDown & KEY_START)
